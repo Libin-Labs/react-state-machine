@@ -1,0 +1,54 @@
+{
+  "name": "@lp-labs/react-state-machine",
+  "version": "1.0.0",
+  "description": "Typed state-machine modeling, deterministic interpretation, and controlled React editor.",
+  "license": "MIT",
+  "author": {
+    "name": "Libin Prasanth",
+    "url": "https://www.linkedin.com/in/libinprasanth/"
+  },
+  "funding": {
+    "type": "paypal",
+    "url": "https://www.paypal.me/LibinPrasanth"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": {
+        "types": "./dist/types/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && tsc -p tsconfig.types-esm.json && tsc -p tsconfig.types-cjs.json && node -e \"const f=require('node:fs'); for(const p of ['dist/esm','dist/types/esm']) { f.mkdirSync(p,{recursive:true}); f.writeFileSync(p+'/package.json',JSON.stringify({type:'module'})); } for(const p of ['dist/cjs','dist/types/cjs']) { f.mkdirSync(p,{recursive:true}); f.writeFileSync(p+'/package.json',JSON.stringify({type:'commonjs'})); } f.cpSync('src/style.css','dist/style.css')\" && tsc -p tsconfig.consumer.json",
+    "typecheck": "tsc -p tsconfig.check.json --noEmit",
+    "test": "npm run build && node --test tests/*.test.cjs"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "jsdom": "^26.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.2"
+  }
+}
